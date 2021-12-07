@@ -1,0 +1,118 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://ParserOutput.gd" type="Script" id=2]
+[ext_resource path="res://Canvas.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/fonts/UbuntuMono_Nerd_Font_Regular.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 24
+font_data = SubResource( 1 )
+
+[sub_resource type="Theme" id=3]
+default_font = SubResource( 2 )
+
+[node name="Main" type="Node"]
+script = ExtResource( 1 )
+
+[node name="Container" type="HSplitContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Parser" type="VBoxContainer" parent="Container"]
+margin_right = 506.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Input" type="TextEdit" parent="Container/Parser"]
+margin_right = 506.0
+margin_bottom = 259.0
+size_flags_vertical = 3
+theme = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" type="HSplitContainer" parent="Container/Parser"]
+margin_top = 263.0
+margin_right = 506.0
+margin_bottom = 337.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Start" type="Button" parent="Container/Parser/Buttons"]
+margin_right = 338.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+theme = SubResource( 3 )
+text = "DÉMARRE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons2" type="VSplitContainer" parent="Container/Parser/Buttons"]
+margin_left = 350.0
+margin_right = 506.0
+margin_bottom = 74.0
+theme = SubResource( 3 )
+
+[node name="Reset" type="Button" parent="Container/Parser/Buttons/Buttons2"]
+margin_right = 156.0
+margin_bottom = 31.0
+text = "EFFACE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GotoZero" type="Button" parent="Container/Parser/Buttons/Buttons2"]
+margin_top = 43.0
+margin_right = 156.0
+margin_bottom = 74.0
+text = "VA EN (0; 0)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ParserOutput" type="RichTextLabel" parent="Container/Parser"]
+margin_top = 341.0
+margin_right = 506.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+theme = SubResource( 3 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="Container/Parser/ParserOutput"]
+wait_time = 8.0
+
+[node name="Surface" type="ColorRect" parent="Container"]
+margin_left = 518.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_horizontal = 3
+color = Color( 1, 1, 1, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Canvas" type="Node2D" parent="."]
+script = ExtResource( 3 )
+
+[connection signal="pressed" from="Container/Parser/Buttons/Start" to="." method="_on_Start_pressed"]
+[connection signal="pressed" from="Container/Parser/Buttons/Buttons2/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="pressed" from="Container/Parser/Buttons/Buttons2/GotoZero" to="." method="_on_GotoZero_pressed"]
+[connection signal="timeout" from="Container/Parser/ParserOutput/Timer" to="Container/Parser/ParserOutput" method="_on_Timer_timeout"]
+[connection signal="resized" from="Container/Surface" to="." method="_on_Surface_resized"]
+[connection signal="emit_position" from="Canvas" to="." method="_on_Canvas_emit_position"]
